@@ -1,0 +1,88 @@
+#Question 1
+import numpy as np
+np.__version__
+
+#Answer: 1.22.3
+
+#Question 2
+import pandas as pd
+pd.read_csv("data.csv")
+
+#Answer: 11914 rows
+
+#Question 3
+
+data = pd.read_csv("data.csv")
+data['Make'].value_counts()
+
+#Answer: Chevrolet, Ford, Volkswagen
+
+#Question 4
+
+data.groupby('Make').nunique()
+
+#Answer: 34
+
+#Question 5
+
+data.isnull().sum()
+
+
+#Answer: 5 columns have missing values
+
+#Question 6
+#Find the median value of "Engine Cylinders" column in the dataset. Answer: 6
+
+data['Engine Cylinders'].median()
+
+#Next, calculate the most frequent value of the same "Engine Cylinders". Answer: 4
+
+data['Engine Cylinders'].mode()
+
+#Use the fillna method to fill the missing values in "Engine Cylinders" with the most frequent value from the previous step.
+
+data['Engine Cylinders'].fillna('4', inplace=True)
+
+#Now, calculate the median value of "Engine Cylinders" once again. Answer: 6
+
+data['Engine Cylinders'].median()
+
+#Answer: HAS NOT CHANGED.
+
+import numpy as np
+
+#Select all the "Lotus" cars from the dataset.
+df = data[data['Make'] == 'Lotus']
+
+#Select only columns "Engine HP", "Engine Cylinders".
+df1 = df[["Engine HP", "Engine Cylinders"]]
+
+#Now drop all duplicated rows using drop_duplicates method (you should get a dataframe with 9 rows).
+df1.drop_duplicates(inplace=True)
+df1.shape
+
+#Get the underlying NumPy array. Let's call it X.
+X = df1.to_numpy()
+
+#Compute matrix-matrix multiplication between the transpose of X and X. To get the transpose, use X.T. Let's call the result XTX.
+
+XTX = np.matmul(X.T, X)
+
+print(XTX)
+
+#Compute the inverse of XTX.
+
+XTX_inverse = np.linalg.inv(XTX)
+
+#Create an array y with values [1100, 800, 750, 850, 1300, 1000, 1000, 1300, 800].
+y = np.array([1100, 800, 750, 850, 1300, 1000, 1000, 1300, 800])
+print(y)
+
+#Multiply the inverse of XTX with the transpose of X, and then multiply the result by y. Call the result w.
+w = (XTX_inverse.dot(X.T)).dot(y)
+
+#What's the value of the first element of w?
+
+w[0]
+
+#Answer: 4.5949
